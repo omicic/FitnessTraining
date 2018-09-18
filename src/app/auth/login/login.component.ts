@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Observable } from '../../../../node_modules/rxjs';
+
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../reducers/app.reducer';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +13,13 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  isLoading$: Observable<boolean>;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
+
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
 
     this.loginForm = new FormGroup({
       email: new FormControl('', {

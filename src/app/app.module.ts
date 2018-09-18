@@ -17,6 +17,9 @@ import { AngularFireModule } from '@angular/fire';
 import { AuthService } from './auth/auth.service';
 import { MaterialModule } from './modules/material.module';
 
+import { reducers } from './reducers/app.reducer';
+import { StoreModule } from '@ngrx/store';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +35,8 @@ import { MaterialModule } from './modules/material.module';
     SharedModule,
     AuthModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AppRoutingModule
+    AppRoutingModule,
+    StoreModule.forRoot(reducers)
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

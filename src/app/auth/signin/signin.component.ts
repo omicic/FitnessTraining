@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from '../../../../node_modules/rxjs';
+
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../reducers/app.reducer'
 
 @Component({
   selector: 'app-signin',
@@ -7,9 +11,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SigninComponent implements OnInit {
 
-  constructor() { }
+  isLoading$: Observable<boolean>;
+  constructor(private store: Store<fromRoot.State> ) { }
 
   ngOnInit() {
+
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+
   }
 
 }
