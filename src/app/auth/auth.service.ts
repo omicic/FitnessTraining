@@ -6,9 +6,11 @@ import { AuthData } from "../model/auth-data.model";
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../reducers/app.reducer';
 import * as Auth from '../reducers/auth.action';
+import * as UI from '../reducers/ui.action';
 
 @Injectable()
 export class AuthService {
+
     constructor(
         private router: Router,
         private afAuth: AngularFireAuth,
@@ -40,6 +42,23 @@ export class AuthService {
                 // UI.stopLoading() ui.action
                 //showError use Snackbar
              });
+    }
+
+    registerUser(authData: AuthData) {
+         //UI.StartLoading() isLoading set to true
+         this.store.dispatch(new UI.SetStartLoading());
+         this.afAuth.auth.createUserWithEmailAndPassword(authData.email, authData.password)
+         .then(result => {
+             //isLoading false, UI.StopLoading()
+             this.store.dispatch(new UI.SetStopLoading());
+         })
+         .catch( error => {
+             //  isLoading false
+             this.store.dispatch(new UI.SetStopLoading());
+             console.log(error);
+         }
+
+         );
     }
 
     logout() {
